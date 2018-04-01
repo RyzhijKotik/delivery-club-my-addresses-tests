@@ -11,6 +11,9 @@ import page_object.main_page_logged_in as mp_loggedin
 
 email = "testuserdelivery@mail.ru"
 password = "P@ssw0rd"
+incorrect_addresses_list = ['С', 'Се', "λύφ", "'", "<script>alert('1')</script>", "javascript:alert('1')",
+                        "`~!@#№%;^^&*()_-+=?/", '1234567890', '',
+                        ''.join([""+str(ch) for ch in range(1, 100)])]
 
 """
 Preparations for testing addresses block: open main page, sign in, go to profile page
@@ -78,4 +81,13 @@ def profile_addresses(selenium, profile_options):
     my_addresses = selenium.find_element_by_xpath(my_addr.myaddr_profile_block)
     assert my_addresses.is_displayed
     return my_addresses
+
+
+@pytest.fixture(params=incorrect_addresses_list)
+def incorrect_addresses(request):
+    """
+    forming a list for incorrect addresses; yielding 1 address per test 
+    """
+    incorrect_address = request.param
+    yield incorrect_address
 

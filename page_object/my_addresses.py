@@ -7,3 +7,5 @@ myaddr_submit_address = "//a[contains(@class, 'sbm-btn')][text()='Добавит
 
 myaddr_textbox_hover = "//span[contains(text(), 'Введите')]"
 myaddr_map_hover = "//span[text()='Указать на карте']"
+
+myaddr_precise_alert = "//span[contains(text() ,'Пожалуйста, уточните ваш адрес')]"
