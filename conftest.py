@@ -20,13 +20,13 @@ Preparations for testing addresses block: open main page, sign in, go to profile
 @pytest.fixture()
 def open_page(selenium):
     selenium.get('https://www.delivery-club.ru/')
-    assert main_page.title in selenium.title
+    assert main_page.mp_title in selenium.title
     return selenium
 
 
 @pytest.fixture
 def login_button(selenium, open_page):
-    login_btn = selenium.find_element_by_xpath(main_page.login_button)
+    login_btn = selenium.find_element_by_xpath(main_page.mp_login_button)
     assert login_btn.is_displayed
     return login_btn
 
@@ -34,7 +34,7 @@ def login_button(selenium, open_page):
 @pytest.fixture
 def login_textbox(selenium, login_button):
     login_button.click()
-    login_input_textbox = selenium.find_element_by_xpath(login_popup.login_input)
+    login_input_textbox = selenium.find_element_by_xpath(login_popup.popup_login_input)
     assert login_input_textbox.is_displayed
     return login_input_textbox
 
@@ -42,7 +42,7 @@ def login_textbox(selenium, login_button):
 @pytest.fixture
 def password_textbox(selenium, login_textbox):
     login_textbox.send_keys(email)
-    password_input_textbox = selenium.find_element_by_xpath(login_popup.password_input)
+    password_input_textbox = selenium.find_element_by_xpath(login_popup.popup_password_input)
     assert password_input_textbox.is_displayed
     return password_input_textbox
 
@@ -50,7 +50,7 @@ def password_textbox(selenium, login_textbox):
 @pytest.fixture
 def submit_button(selenium, password_textbox):
     password_textbox.send_keys(password)
-    submit_btn = selenium.find_element_by_xpath(login_popup.submit_btn)
+    submit_btn = selenium.find_element_by_xpath(login_popup.popup_submit_btn)
     assert submit_btn.is_displayed
     return submit_btn
 
@@ -58,7 +58,8 @@ def submit_button(selenium, password_textbox):
 @pytest.fixture
 def logged_in(selenium, submit_button):
     submit_button.click()
-    logged_in_name = WebDriverWait(selenium, 10).until(EC.presence_of_element_located((By.ID, mp_loggedin.logged_in_id)))
+    logged_in_name = WebDriverWait(selenium, 10).\
+        until(EC.presence_of_element_located((By.ID, mp_loggedin.mp_logged_in_id)))
     assert logged_in_name.is_displayed
     return logged_in_name
 
@@ -66,7 +67,7 @@ def logged_in(selenium, submit_button):
 @pytest.fixture
 def profile_options(selenium, logged_in):
     logged_in.click()
-    profile_menu_option = selenium.find_element_by_xpath(mp_loggedin.user_profile_name_option)
+    profile_menu_option = selenium.find_element_by_xpath(mp_loggedin.mp_profile_option)
     assert profile_menu_option.is_displayed
     return profile_menu_option
 
@@ -74,7 +75,7 @@ def profile_options(selenium, logged_in):
 @pytest.fixture
 def profile_addresses(selenium, profile_options):
     profile_options.click()
-    my_addresses = selenium.find_element_by_xpath(my_addr.user_profile_addresses)
+    my_addresses = selenium.find_element_by_xpath(my_addr.myaddr_profile_block)
     assert my_addresses.is_displayed
     return my_addresses
 
