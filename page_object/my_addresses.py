@@ -17,3 +17,5 @@ myaddr_address_added = "//b[text()='Санкт-Петербург, Загреб�
 myaddr_delete_addr_btn = "//a[@class='delete_uaddress']"
 
 myaddr_unknown = "//span[text() = 'Нет совпадений по введенному адресу']"
+
+myaddr_map_close_btn = "//a[@class='user-addr__popup__close']"

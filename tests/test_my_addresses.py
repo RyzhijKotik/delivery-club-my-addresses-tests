@@ -30,12 +30,14 @@ def test_myaddr_textbox(selenium, profile_addresses):
     return myaddr_textbox_elem
 
 
+@pytest.fixture
 def test_myaddr_map_icon(selenium, profile_addresses):
     """"
     check presence and ready for input of myaddresses map icon
     """
     myaddr_map_icon_elem = selenium.find_element_by_xpath(my_addr.myaddr_map_icon)
     assert myaddr_map_icon_elem.is_displayed
+    return myaddr_map_icon_elem
 
 
 @pytest.fixture
@@ -163,5 +165,17 @@ def test_unknown_address(selenium, test_myaddr_textbox, unknown_addresses):
     myaddr_unknown_elem = WebDriverWait(selenium, 10). \
         until(EC.presence_of_element_located((By.XPATH, my_addr.myaddr_unknown)))
     assert myaddr_unknown_elem.is_displayed
+
+
+def test_open_ans_close_map(selenium, test_myaddr_map_icon):
+    """
+    action: open map, click close button 
+    result: map closed
+    """
+    test_myaddr_map_icon.click()
+    myaddr_map_close_btn_elem = WebDriverWait(selenium, 10). \
+        until(EC.presence_of_element_located((By.XPATH, my_addr.myaddr_map_close_btn)))
+    myaddr_map_close_btn_elem.click()
+    assert test_myaddr_map_icon.is_enabled
 
 
