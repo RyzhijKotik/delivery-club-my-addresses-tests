@@ -10,5 +10,8 @@ myaddr_map_hover = "//span[text()='Указать на карте']"
 
 myaddr_precise_alert = "//span[contains(text() ,'Пожалуйста, уточните ваш адрес')]"
 
-myaddr_second_address_in_list = "//span[contains(text(), 'Комсомольский район, река Верхняя Сеака')]"
+myaddr_second_address_in_list = "//span[contains(text(), 'Санкт-Петербург, Загребский бульвар')]"
 myaddr_second_addr_filled = "//input[contains(@class, 'ui-autocomplete-input')]"
+
+myaddr_address_added = "//b[text()='Санкт-Петербург, Загребский бульвар, 9']"
+myaddr_delete_addr_btn = "//a[@class='delete_uaddress']"

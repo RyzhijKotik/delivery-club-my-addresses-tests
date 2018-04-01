@@ -14,7 +14,8 @@ password = "P@ssw0rd"
 incorrect_addresses_list = ['С', 'Се', "λύφ", "'", "<script>alert('1')</script>", "javascript:alert('1')",
                         "`~!@#№%;^^&*()_-+=?/", '1234567890', '',
                         ''.join([""+str(ch) for ch in range(1, 100)])]
-correct_addresses_list = ['Сеа']
+correct_addresses_list = ['заг']
+housenumber_list = ['9']
 
 """
 Preparations for testing addresses block: open main page, sign in, go to profile page
@@ -100,4 +101,12 @@ def correct_addresses(request):
     """
     correct_address = request.param
     yield correct_address
+
+@pytest.fixture(params=housenumber_list)
+def housenumber(request):
+    """
+    forming a list for house numbers; yielding 1 number per test 
+    """
+    house_number = request.param
+    yield house_number
 

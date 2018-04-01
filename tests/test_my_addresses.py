@@ -2,6 +2,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 
 import page_object.my_addresses as my_addr
 
@@ -98,6 +99,9 @@ def test_choose_address_from_list(selenium, test_myaddr_textbox, correct_address
     action: fill some correct letters into textbox and chhose address from list 
     result: address filled into textbox
     """
+    myaddr_delete_addr_btn_elem = selenium.find_element_by_xpath(my_addr.myaddr_delete_addr_btn)
+    myaddr_delete_addr_btn_elem.click()
+    selenium.switch_to_alert().accept()
     test_myaddr_textbox.send_keys(correct_addresses)
     myaddr_second_item_elem = WebDriverWait(selenium, 10). \
         until(EC.presence_of_element_located((By.XPATH, my_addr.myaddr_second_address_in_list)))
@@ -119,9 +123,35 @@ def test_add_address_from_list(selenium, test_choose_address_from_list):
 
 def test_submit_unprecise_address_from_list(selenium, test_add_address_from_list, test_myaddr_submit_address_btn):
     """
-    action: submit chosen address from list
-    result: alert -- unprecise address
+    !!! Этот тест будет падать. 
+    При наличии уже добавленного адреса я не могу добавить ещё один, 
+    если он начинается на те же буквы, что и добавленный.
+    Представим, что список адресов у нас изначально пустой.
+    1) Вводим в поле адреса "заг"
+    2) Добавляем любой адрес из списка на "заг": например Санкт-Петербург, Загребский проезд, 9
+    3) Снова вводим в поле адреса "заг"
+    Результат: список адресов на "заг" мне больше не выдаётся
     """
     test_myaddr_submit_address_btn.click()
     myaddr_precise_alert_elem = selenium.find_element_by_xpath(my_addr.myaddr_precise_alert)
     assert myaddr_precise_alert_elem.is_displayed
+
+
+#it fails
+def test_add_address(selenium, housenumber, test_myaddr_textbox, test_add_address_from_list,
+                                test_myaddr_submit_address_btn, test_choose_address_from_list):
+    """
+    !!!! Этот тест будет падать, потому что добавленный адрес не удаляется. 
+    1) добавляем любой адрес, который добавится (с номером дома)
+    2) жмем конпку удалить 
+    3) жмем f5 
+    результат: адрес остался на месте 
+    """
+    test_myaddr_textbox.send_keys(housenumber)
+    test_myaddr_submit_address_btn.click()
+    myaddr_delete_addr_btn_elem = selenium.find_element_by_xpath(my_addr.myaddr_delete_addr_btn)
+    myaddr_delete_addr_btn_elem.click()
+    selenium.switch_to_alert().accept()
+    assert test_choose_address_from_list.is_displayed
+
+
