@@ -15,3 +15,5 @@ myaddr_second_addr_filled = "//input[contains(@class, 'ui-autocomplete-input')]"
 
 myaddr_address_added = "//b[text()='Санкт-Петербург, Загребский бульвар, 9']"
 myaddr_delete_addr_btn = "//a[@class='delete_uaddress']"
+
+myaddr_unknown = "//span[text() = 'Нет совпадений по введенному адресу']"

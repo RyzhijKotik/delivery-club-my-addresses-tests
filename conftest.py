@@ -16,6 +16,7 @@ incorrect_addresses_list = ['С', 'Се', "λύφ", "'", "<script>alert('1')</sc
                         ''.join([""+str(ch) for ch in range(1, 100)])]
 correct_addresses_list = ['заг']
 housenumber_list = ['9']
+unknown_addr_list = ["unknown"]
 
 """
 Preparations for testing addresses block: open main page, sign in, go to profile page
@@ -102,6 +103,7 @@ def correct_addresses(request):
     correct_address = request.param
     yield correct_address
 
+
 @pytest.fixture(params=housenumber_list)
 def housenumber(request):
     """
@@ -110,3 +112,11 @@ def housenumber(request):
     house_number = request.param
     yield house_number
 
+
+@pytest.fixture(params=unknown_addr_list)
+def unknown_addresses(request):
+    """
+    forming a list for unkonown addresses; yielding 1 addr per test 
+    """
+    unknown_addr = request.param
+    yield unknown_addr

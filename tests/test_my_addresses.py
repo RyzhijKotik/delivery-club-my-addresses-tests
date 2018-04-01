@@ -2,7 +2,6 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
 import page_object.my_addresses as my_addr
 
@@ -153,5 +152,16 @@ def test_add_address(selenium, housenumber, test_myaddr_textbox, test_add_addres
     myaddr_delete_addr_btn_elem.click()
     selenium.switch_to_alert().accept()
     assert test_choose_address_from_list.is_displayed
+
+
+def test_unknown_address(selenium, test_myaddr_textbox, unknown_addresses):
+    """
+    action: put unknown address into textbox
+    result: alert about unknown address
+    """
+    test_myaddr_textbox.send_keys(unknown_addresses)
+    myaddr_unknown_elem = WebDriverWait(selenium, 10). \
+        until(EC.presence_of_element_located((By.XPATH, my_addr.myaddr_unknown)))
+    assert myaddr_unknown_elem.is_displayed
 
 
