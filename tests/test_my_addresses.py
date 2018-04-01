@@ -1,4 +1,7 @@
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 
 import page_object.my_addresses as my_addr
 
@@ -81,18 +84,44 @@ def test_add_empty_address(selenium, test_myaddr_submit_address_btn):
 def test_add_incorrect_addresses(selenium, incorrect_addresses, test_myaddr_submit_address_btn, test_myaddr_textbox):
     """
     action: input incorrect symbol(s) into textbox field and click submit button 
-    result: error alert 
+    result: error alert -- address to precise
     """
     test_myaddr_textbox.send_keys(incorrect_addresses)
     test_myaddr_submit_address_btn.click()
     myaddr_precise_alert_elem = selenium.find_element_by_xpath(my_addr.myaddr_precise_alert)
     assert myaddr_precise_alert_elem.is_displayed
 
-"""
-ctrl-c ctrl-v в поле (???)
-добавить адрес из списка
-удалить добавленный адрес 
-добавить адрес не из списка -- алерт вдреса нет в списке
-Добавить адрес с карты
-Открыть-закрыть карту, ничего не добавляя
-"""
+
+@pytest.fixture
+def test_choose_address_from_list(selenium, test_myaddr_textbox, correct_addresses):
+    """
+    action: fill some correct letters into textbox and chhose address from list 
+    result: address filled into textbox
+    """
+    test_myaddr_textbox.send_keys(correct_addresses)
+    myaddr_second_item_elem = WebDriverWait(selenium, 10). \
+        until(EC.presence_of_element_located((By.XPATH, my_addr.myaddr_second_address_in_list)))
+    assert myaddr_second_item_elem.is_displayed
+    return myaddr_second_item_elem
+
+
+@pytest.fixture
+def test_add_address_from_list(selenium, test_choose_address_from_list):
+    """
+    action: choose address from list 
+    result: textbox filled with the chosen address
+    """
+    test_choose_address_from_list.click()
+    myaddr_from_list_filled_elem = selenium.find_element_by_xpath(my_addr.myaddr_second_addr_filled )
+    assert myaddr_from_list_filled_elem.is_displayed
+    return myaddr_from_list_filled_elem
+
+
+def test_submit_unprecise_address_from_list(selenium, test_add_address_from_list, test_myaddr_submit_address_btn):
+    """
+    action: submit chosen address from list
+    result: alert -- unprecise address
+    """
+    test_myaddr_submit_address_btn.click()
+    myaddr_precise_alert_elem = selenium.find_element_by_xpath(my_addr.myaddr_precise_alert)
+    assert myaddr_precise_alert_elem.is_displayed

@@ -9,3 +9,6 @@ myaddr_textbox_hover = "//span[contains(text(), 'Введите')]"
 myaddr_map_hover = "//span[text()='Указать на карте']"
 
 myaddr_precise_alert = "//span[contains(text() ,'Пожалуйста, уточните ваш адрес')]"
+
+myaddr_second_address_in_list = "//span[contains(text(), 'Комсомольский район, река Верхняя Сеака')]"
+myaddr_second_addr_filled = "//input[contains(@class, 'ui-autocomplete-input')]"
