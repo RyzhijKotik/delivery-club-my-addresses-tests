@@ -19,3 +19,6 @@ myaddr_delete_addr_btn = "//a[@class='delete_uaddress']"
 myaddr_unknown = "//span[text() = 'Нет совпадений по введенному адресу']"
 
 myaddr_map_close_btn = "//a[@class='user-addr__popup__close']"
+
+myaddr_map_confirm_addr = "//a[@class='button_simple btn_big sbm-btn'][contains(text(), 'верный')]"
+

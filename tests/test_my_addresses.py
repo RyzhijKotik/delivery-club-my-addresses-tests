@@ -167,15 +167,36 @@ def test_unknown_address(selenium, test_myaddr_textbox, unknown_addresses):
     assert myaddr_unknown_elem.is_displayed
 
 
-def test_open_ans_close_map(selenium, test_myaddr_map_icon):
+@pytest.fixture
+def test_open_map(selenium, test_myaddr_map_icon):
     """
-    action: open map, click close button 
-    result: map closed
+    action: click open map button 
+    result: check if map is opened
     """
     test_myaddr_map_icon.click()
     myaddr_map_close_btn_elem = WebDriverWait(selenium, 10). \
         until(EC.presence_of_element_located((By.XPATH, my_addr.myaddr_map_close_btn)))
-    myaddr_map_close_btn_elem.click()
+    assert myaddr_map_close_btn_elem.is_enabled
+    return myaddr_map_close_btn_elem
+
+
+def test_open_and_close_map(selenium, test_open_map):
+    """
+    action: click close button 
+    result: map closed
+    """
+    test_open_map.click()
     assert test_myaddr_map_icon.is_enabled
 
+
+def test_add_default_address_from_map(selenium, test_open_map):
+    """
+    action: add default address from map
+    result: address added
+    """
+    myaddr_map_confirm_addr_elem = WebDriverWait(selenium, 30). \
+        until(EC.visibility_of_element_located((By.XPATH, my_addr.myaddr_map_confirm_addr)))
+    myaddr_map_confirm_addr_elem.click()
+    myaddr_delete_addr_btn_elem = selenium.find_element_by_xpath(my_addr.myaddr_delete_addr_btn)
+    assert myaddr_delete_addr_btn_elem.is_enabled
 
