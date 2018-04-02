@@ -15,6 +15,7 @@ pytest-selenium
 pytest .\tests --driver Chrome
 
 Структура проекта:
+
 test_my_address.py -- тесты;
 
 conftest.py -- вспомогательные фикстуры (залогиниться, перейти в профиль, передать список данных для поля адресов);
