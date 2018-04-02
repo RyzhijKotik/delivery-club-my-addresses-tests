@@ -9,14 +9,8 @@ import page_object.login_popup as login_popup
 import page_object.my_addresses as my_addr
 import page_object.main_page_logged_in as mp_loggedin
 
-email = "testuserdelivery@mail.ru"
-password = "P@ssw0rd"
-incorrect_addresses_list = ['С', 'Се', "λύφ", "'", "<script>alert('1')</script>", "javascript:alert('1')",
-                        "`~!@#№%;^^&*()_-+=?/", '1234567890', '',
-                        ''.join([""+str(ch) for ch in range(1, 100)])]
-correct_addresses_list = ['заг']
-housenumber_list = ['9']
-unknown_addr_list = ["unknown"]
+import common_data
+
 
 """
 Preparations for testing addresses block: open main page, sign in, go to profile page
@@ -47,7 +41,7 @@ def login_textbox(selenium, login_button):
 
 @pytest.fixture
 def password_textbox(selenium, login_textbox):
-    login_textbox.send_keys(email)
+    login_textbox.send_keys(common_data.email)
     password_input_textbox = selenium.find_element_by_xpath(login_popup.popup_password_input)
     assert password_input_textbox.is_displayed
     return password_input_textbox
@@ -55,7 +49,7 @@ def password_textbox(selenium, login_textbox):
 
 @pytest.fixture
 def submit_button(selenium, password_textbox):
-    password_textbox.send_keys(password)
+    password_textbox.send_keys(common_data.password)
     submit_btn = selenium.find_element_by_xpath(login_popup.popup_submit_btn)
     assert submit_btn.is_displayed
     return submit_btn
@@ -86,7 +80,7 @@ def profile_addresses(selenium, profile_options):
     return my_addresses
 
 
-@pytest.fixture(params=incorrect_addresses_list)
+@pytest.fixture(params=common_data.incorrect_addresses_list)
 def incorrect_addresses(request):
     """
     forming a list for incorrect addresses; yielding 1 address per test 
@@ -95,7 +89,7 @@ def incorrect_addresses(request):
     yield incorrect_address
 
 
-@pytest.fixture(params=correct_addresses_list)
+@pytest.fixture(params=common_data.correct_addresses_list)
 def correct_addresses(request):
     """
     forming a list for correct addresses; yielding 1 address per test 
@@ -104,7 +98,7 @@ def correct_addresses(request):
     yield correct_address
 
 
-@pytest.fixture(params=housenumber_list)
+@pytest.fixture(params=common_data.housenumber_list)
 def housenumber(request):
     """
     forming a list for house numbers; yielding 1 number per test 
@@ -113,7 +107,7 @@ def housenumber(request):
     yield house_number
 
 
-@pytest.fixture(params=unknown_addr_list)
+@pytest.fixture(params=common_data.unknown_addr_list)
 def unknown_addresses(request):
     """
     forming a list for unkonown addresses; yielding 1 addr per test 
