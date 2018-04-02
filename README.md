@@ -6,12 +6,17 @@
 В качестве тестраннера желательно использовать pytest - https://docs.pytest.org/en/latest/.
 
 requirements:
+
 python > 3.5
+
 selenium
+
 pytest
+
 pytest-selenium
 
 Запускаем pytest'ом, при запуске передаём ключ --driver:
+
 pytest .\tests --driver Chrome
 
 Структура проекта:
