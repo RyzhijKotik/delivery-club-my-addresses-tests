@@ -139,7 +139,7 @@ def test_submit_unprecise_address_from_list(selenium, test_add_address_from_list
 
 
 #it fails
-def test_add_address(selenium, housenumber, test_myaddr_textbox, test_add_address_from_list,
+def test_add_and_delete_address(selenium, housenumber, test_myaddr_textbox, test_add_address_from_list,
                                 test_myaddr_submit_address_btn, test_choose_address_from_list):
     """
     !!!! Этот тест будет падать, потому что добавленный адрес не удаляется. 
@@ -180,7 +180,7 @@ def test_open_map(selenium, test_myaddr_map_icon):
     return myaddr_map_close_btn_elem
 
 
-def test_open_and_close_map(selenium, test_open_map):
+def test_open_and_close_map(selenium, test_open_map, test_myaddr_map_icon):
     """
     action: click close button 
     result: map closed
